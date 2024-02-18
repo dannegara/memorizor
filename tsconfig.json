@@ -6,7 +6,8 @@
       "@hooks/*": ["./src/hooks/*"],
       "@store/*": ["./src/store/*"],
       "@enums/*": ["./src/enums/*"],
-      "@api/*": ["./src/api/*"]
+      "@api/*": ["./src/api/*"],
+      "@utils/*": ["./src/utils/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

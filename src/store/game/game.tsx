@@ -35,15 +35,19 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setNumberOfPlayersState(newNumberOfPlayers);
   };
 
+  const winnerPlayer = null;
+
   const gameStep = useMemo<GameStep>(() => {
     if (!numberOfPlayers) {
       return GameStep.NUMBER_OF_PLAYERS;
     }
 
+    if (winnerPlayer) {
+      return GameStep.WINNER;
+    }
+
     return GameStep.CARD_BOARD_GAME;
   }, [numberOfPlayers]);
-
-  const winnerPlayer = null;
 
   return (
     <GameContext.Provider

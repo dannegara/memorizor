@@ -1,0 +1,7 @@
+.CardBoard {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
