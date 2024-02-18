@@ -1,37 +1,15 @@
-.flippableCard {
-  width: 200px;
-  height: 300px;
-  perspective: 1000px;
-  transition: transform 0.4s ease-in-out;
-  border-radius: 5px;
-  cursor: pointer;
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.flippableCard.flipped {
-  transform: rotateY(180deg);
-}
-
-.cardFront,
-.cardBack {
+.cardSide {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-}
-
-.cardFront {
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cardBack {
-  border-radius: 5px;
-  background-color: #e0e0e0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: rotateY(180deg);
+  width: 150px;
+  height: 200px;
+  cursor: pointer;
+  will-change: transform, opacity;
+  border-radius: 20px;
+  background-size: cover;
 }

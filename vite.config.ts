@@ -23,6 +23,10 @@ export default defineConfig({
         find: "@enums",
         replacement: path.resolve(__dirname, "src/enums"),
       },
+      {
+        find: "@api",
+        replacement: path.resolve(__dirname, "src/api"),
+      },
     ],
   },
 });
