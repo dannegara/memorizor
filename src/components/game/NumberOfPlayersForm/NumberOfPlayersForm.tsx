@@ -8,7 +8,10 @@ const NumberOfPlayersForm = () => {
   const submitNumberOfPlayers = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setNumberOfPlayers(event.target.numberOfPlayers.value);
+    setNumberOfPlayers(
+      (event.target as unknown as { numberOfPlayers: { value: number } })
+        .numberOfPlayers.value
+    );
   };
 
   return (
