@@ -1,0 +1,5 @@
+export enum GameStep {
+  NUMBER_OF_PLAYERS = "NUMBER_OF_PLAYERS",
+  CARD_BOARD_GAME = "CARD_BOARD_GAME",
+  WINNER = "WINNER",
+}

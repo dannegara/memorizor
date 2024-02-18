@@ -1,16 +1,12 @@
-import NumberOfPlayersForm from "@components/game/NumberOfPlayersForm";
-import Winner from "@components/game/Winner";
-import CardBoard from "@components/game/CardBoard";
 import Layout from "@components/layout";
+import Game from "@components/Game";
 import { GameProvider } from "@store/game";
 
 const App = () => {
   return (
     <GameProvider>
       <Layout>
-        <NumberOfPlayersForm />
-        <CardBoard />
-        <Winner />
+        <Game />
       </Layout>
     </GameProvider>
   );

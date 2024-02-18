@@ -1,21 +1,25 @@
-import { useState, createContext, PropsWithChildren } from "react";
+import { useState, useMemo, createContext, PropsWithChildren } from "react";
+import { GameStep } from "@enums/gameStep";
 
 interface GameContextValue {
-  numberOfPlayers: number;
+  numberOfPlayers: number | null;
+  winnerPlayer: number | null;
+  gameStep: GameStep;
   setNumberOfPlayers: (newNumberOfPlayers: number) => void;
 }
 
 const defaultValue: GameContextValue = {
-  numberOfPlayers: 1,
+  numberOfPlayers: null,
+  winnerPlayer: null,
+  gameStep: GameStep.NUMBER_OF_PLAYERS,
   setNumberOfPlayers: () => {},
 };
 
 export const GameContext = createContext(defaultValue);
 
 export const GameProvider = ({ children }: PropsWithChildren) => {
-  const [numberOfPlayers, setNumberOfPlayersState] = useState(
-    defaultValue.numberOfPlayers
-  );
+  const [numberOfPlayers, setNumberOfPlayersState] =
+    useState<GameContextValue["numberOfPlayers"]>(null);
 
   const setNumberOfPlayers = (newNumberOfPlayers: number) => {
     if (Number.isInteger(newNumberOfPlayers)) {
@@ -31,8 +35,20 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setNumberOfPlayersState(newNumberOfPlayers);
   };
 
+  const gameStep = useMemo<GameStep>(() => {
+    if (!numberOfPlayers) {
+      return GameStep.NUMBER_OF_PLAYERS;
+    }
+
+    return GameStep.CARD_BOARD_GAME;
+  }, [numberOfPlayers]);
+
+  const winnerPlayer = null;
+
   return (
-    <GameContext.Provider value={{ numberOfPlayers, setNumberOfPlayers }}>
+    <GameContext.Provider
+      value={{ numberOfPlayers, gameStep, winnerPlayer, setNumberOfPlayers }}
+    >
       {children}
     </GameContext.Provider>
   );
