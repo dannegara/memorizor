@@ -1,6 +1,6 @@
-import NumberOfPlayersForm from "@components/Game/NumberOfPlayersForm";
-import Winner from "@components/Game/Winner";
-import CardBoard from "@components/Game/CardBoard";
+import NumberOfPlayersForm from "@components/game/NumberOfPlayersForm";
+import Winner from "@components/game/Winner";
+import CardBoard from "@components/game/CardBoard";
 import { GameStep } from "@enums/gameStep";
 import { useGame } from "@hooks/game";
 

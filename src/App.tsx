@@ -1,5 +1,5 @@
 import Layout from "@components/layout";
-import Game from "@components/Game";
+import Game from "@components/game";
 import { GameProvider } from "@store/game";
 
 const App = () => {
