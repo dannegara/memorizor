@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { NumberInput, Button } from "@components/ui";
+import { NumberInput, Button, Typography } from "@components/ui";
 import { useGame } from "@hooks/game";
 
 const NumberOfPlayersForm = () => {
@@ -16,6 +16,7 @@ const NumberOfPlayersForm = () => {
 
   return (
     <form onSubmit={submitNumberOfPlayers}>
+      <Typography>Please insert the desired number of players</Typography>
       <NumberInput name="numberOfPlayers" min={1} max={5} defaultValue={1} />
       <Button type="submit">Submit</Button>
     </form>
