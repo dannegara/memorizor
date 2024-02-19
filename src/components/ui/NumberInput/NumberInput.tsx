@@ -6,6 +6,7 @@ interface NumberInputProps {
   defaultValue: number;
   onChange?: (value: number | null) => void;
   name?: string;
+  className?: string;
 }
 
 const NumberInput = ({
@@ -14,6 +15,7 @@ const NumberInput = ({
   max,
   defaultValue,
   name,
+  className,
 }: NumberInputProps) => {
   return (
     <InputNumber
@@ -22,6 +24,7 @@ const NumberInput = ({
       defaultValue={defaultValue}
       name={name}
       onChange={onChange}
+      className={className}
     />
   );
 };

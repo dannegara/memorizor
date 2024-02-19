@@ -1,0 +1,12 @@
+.NumberOfPlayersFormContainer {
+  padding: 16px;
+}
+
+.NumberOfPlayersForm {
+  display: flex;
+  gap: 8px;
+}
+
+.NumberOfPlayersForm > * {
+  flex: 1;
+}

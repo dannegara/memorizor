@@ -1,15 +1,14 @@
 import { useSpring, a } from "@react-spring/web";
+import coverImage from "@assets/card-cover.webp";
 import styles from "./FlippableCard.module.css";
 
 interface FlippableCardProps {
-  coverImage?: string;
   frontImage?: string;
   flipped: boolean;
   onClick: () => void;
 }
 
 const FlippableCard = ({
-  coverImage,
   frontImage,
   flipped,
   onClick,

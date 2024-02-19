@@ -31,8 +31,9 @@ const CardBoard = () => {
   const flipCard = (cardIndex: number) => {
     const bothCardsAreOpen =
       firstOpenedCard !== null && secondOpenedCard !== null;
+    const sameCardClicked = cardIndex === firstOpenedCard;
 
-    if (bothCardsAreOpen) {
+    if (bothCardsAreOpen || sameCardClicked) {
       return;
     }
 
@@ -95,27 +96,28 @@ const CardBoard = () => {
   }
 
   return (
-    <>
+    <div className={styles.CardBoardContainer}>
       {contextHolder}
       <Typography>Now it's player number {currentPlayer} turn</Typography>
       <Typography>
-        {playersCardsPairs.map(
-          (pairs, playerIndex) =>
-            `Player ${playerIndex + 1} has ${pairs.length} points.`
-        )}
+        {playersCardsPairs.map((pairs, playerIndex) => (
+          <>
+            Player {playerIndex + 1} score: {pairs.length}.
+            <br />
+          </>
+        ))}
       </Typography>
       <div className={styles.CardBoard}>
         {doubledAndShuffledCatsImages.map((catImage, index) => (
           <FlippableCard
             flipped={allOpenedCardsIndexes.includes(index)}
             key={`${catImage}${index}`}
-            coverImage="https://images.unsplash.com/photo-1544511916-0148ccdeb877?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1901&q=80i&auto=format&fit=crop"
             frontImage={catImage}
             onClick={() => flipCard(index)}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
