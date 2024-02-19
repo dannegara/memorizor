@@ -1,4 +1,4 @@
-export const copyItemsInList = <T>(list: T[]) => [...list, ...list];
+export const doubleItemsInList = <T>(list: T[]) => [...list, ...list];
 
 export const shuffleList = <T>(list: T[]) => {
   for (let i = list.length - 1; i > 0; i--) {

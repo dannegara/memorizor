@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-spring/web": "^9.7.3",
     "antd": "^5.14.1",
+    "immer": "^10.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
