@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { Spin } from "antd";
-import { FlippableCard, Typography } from "@components/ui";
+import { notification } from "antd";
+import { FlippableCard, Typography, Loader } from "@components/ui";
 import { useCatsImages } from "@hooks/game";
 import { doubleItemsInList, shuffleList } from "@utils/list";
 import { useGame } from "@hooks/game";
@@ -8,7 +8,13 @@ import styles from "./CardBoard.module.css";
 
 const CardBoard = () => {
   const { isLoading, catsImages } = useCatsImages();
-  const { playersCardsPairs, addPlayersNewPair } = useGame();
+  const [api, contextHolder] = notification.useNotification();
+  const {
+    playersCardsPairs,
+    numberOfPlayers,
+    addPlayersNewPair,
+    setWinnerPlayer,
+  } = useGame();
   const [firstOpenedCard, setFirstOpenedCard] = useState<number | null>(null);
   const [secondOpenedCard, setSecondOpenedCard] = useState<number | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState(1);
@@ -42,15 +48,42 @@ const CardBoard = () => {
         doubledAndShuffledCatsImages[cardIndex];
 
       if (openedCardsAreTheSame) {
+        api.open({ message: "You've found a pair. Yay 🎉!" });
+
         addPlayersNewPair(currentPlayer, [firstOpenedCard, cardIndex]);
       }
 
       setSecondOpenedCard(cardIndex);
 
       setTimeout(() => {
-        setCurrentPlayer((prevCurrentPlayer) => prevCurrentPlayer + 1);
-        setFirstOpenedCard(null);
-        setSecondOpenedCard(null);
+        const allCardsHaveBeenOpened =
+          allOpenedCardsIndexes.length >= doubledAndShuffledCatsImages.length;
+
+        if (allCardsHaveBeenOpened) {
+          const winnerPlayer = playersCardsPairs.reduce(
+            (acc, playerCardsPairs, index) => {
+              if (playerCardsPairs.length > playersCardsPairs[acc].length) {
+                return index;
+              }
+
+              return acc;
+            },
+            0
+          );
+
+          setWinnerPlayer(winnerPlayer + 1);
+        } else {
+          setCurrentPlayer((prevCurrentPlayer) => {
+            if (prevCurrentPlayer === numberOfPlayers) {
+              return 1;
+            }
+
+            return prevCurrentPlayer + 1;
+          });
+
+          setFirstOpenedCard(null);
+          setSecondOpenedCard(null);
+        }
       }, 1000);
 
       return;
@@ -58,12 +91,19 @@ const CardBoard = () => {
   };
 
   if (isLoading) {
-    return <Spin />;
+    return <Loader />;
   }
 
   return (
     <>
+      {contextHolder}
       <Typography>Now it's player number {currentPlayer} turn</Typography>
+      <Typography>
+        {playersCardsPairs.map(
+          (pairs, playerIndex) =>
+            `Player ${playerIndex + 1} has ${pairs.length} points.`
+        )}
+      </Typography>
       <div className={styles.CardBoard}>
         {doubledAndShuffledCatsImages.map((catImage, index) => (
           <FlippableCard

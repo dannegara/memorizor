@@ -1,22 +1,7 @@
 import { useState, useMemo, createContext, PropsWithChildren } from "react";
 import { produce } from "immer";
 import { GameStep } from "@enums/gameStep";
-
-type PlayerCardsPair = [number, number];
-
-type PlayerCardsPairs = PlayerCardsPair[];
-
-type PlayersCardsPairs = PlayerCardsPairs[];
-
-interface GameContextValue {
-  numberOfPlayers: number | null;
-  winnerPlayer: number | null;
-  gameStep: GameStep;
-  playersCardsPairs: PlayersCardsPairs;
-  setNumberOfPlayers: (newNumberOfPlayers: number) => void;
-  resetGame: () => void;
-  addPlayersNewPair: (playerNumber: number, pair: PlayerCardsPair) => void;
-}
+import { GameContextValue, PlayerCardsPair } from "./types";
 
 const defaultValue: GameContextValue = {
   numberOfPlayers: null,
@@ -26,6 +11,7 @@ const defaultValue: GameContextValue = {
   setNumberOfPlayers: () => {},
   resetGame: () => {},
   addPlayersNewPair: () => {},
+  setWinnerPlayer: () => {},
 };
 
 export const GameContext = createContext(defaultValue);
@@ -34,7 +20,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [numberOfPlayers, setNumberOfPlayersState] = useState<
     GameContextValue["numberOfPlayers"]
   >(defaultValue.numberOfPlayers);
-  const [winnerPlayer, setWinnerPlayer] = useState<
+  const [winnerPlayer, setWinnerPlayerState] = useState<
     GameContextValue["winnerPlayer"]
   >(defaultValue.winnerPlayer);
   const [playersCardsPairs, setPlayersCardsPairs] = useState<
@@ -42,11 +28,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   >(defaultValue.playersCardsPairs);
 
   const gameStep = useMemo<GameStep>(() => {
-    if (!numberOfPlayers) {
+    if (numberOfPlayers === null) {
       return GameStep.NUMBER_OF_PLAYERS;
     }
 
-    if (winnerPlayer) {
+    if (winnerPlayer !== null) {
       return GameStep.WINNER;
     }
 
@@ -54,7 +40,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   }, [numberOfPlayers, winnerPlayer]);
 
   const setNumberOfPlayers = (newNumberOfPlayers: number) => {
-    if (Number.isInteger(newNumberOfPlayers)) {
+    if (!Number.isInteger(newNumberOfPlayers)) {
       throw new Error("The new number of players must be an integer");
     }
 
@@ -76,9 +62,25 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     );
   };
 
+  const setWinnerPlayer = (playerNumber: number) => {
+    if (!numberOfPlayers) {
+      throw new Error(
+        "You cannot set winner player before setting the number of players"
+      );
+    }
+
+    if (playerNumber <= 0 || playerNumber > numberOfPlayers) {
+      throw new Error(
+        "The winner number cannot be less than zero or greater than number of players"
+      );
+    }
+
+    setWinnerPlayerState(playerNumber);
+  };
+
   const resetGame = () => {
     setNumberOfPlayersState(null);
-    setWinnerPlayer(null);
+    setWinnerPlayerState(null);
     setPlayersCardsPairs([]);
   };
 
@@ -92,6 +94,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         resetGame,
         setNumberOfPlayers,
         addPlayersNewPair,
+        setWinnerPlayer,
       }}
     >
       {children}

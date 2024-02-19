@@ -9,8 +9,10 @@ const NumberOfPlayersForm = () => {
     event.preventDefault();
 
     setNumberOfPlayers(
-      (event.target as unknown as { numberOfPlayers: { value: number } })
-        .numberOfPlayers.value
+      parseInt(
+        (event.target as unknown as { numberOfPlayers: { value: string } })
+          .numberOfPlayers.value
+      )
     );
   };
 
