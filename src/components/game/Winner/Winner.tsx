@@ -8,6 +8,10 @@ const Winner = () => {
   return (
     <div className={styles.WinnerInfoContainer}>
       <Typography>The winner is player {winnerPlayer}. Congrats 🎉.</Typography>
+      <Typography>
+        The winner either opened most of the cards or did it before other
+        players
+      </Typography>
       <Button onClick={resetGame}>Play Again</Button>
     </div>
   );
