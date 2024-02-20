@@ -48,6 +48,58 @@ Memorizor app is built using the React Context API, providing a structured archi
 
    The app integrates with external APIs, such as the cat image API for fetching cat images for the memory game. API requests are made asynchronously using built-in browser fetch API.
 
+## Players Cards Pairs Data Structure
+
+The Memorizor app utilizes a triple level array data structure to manage player card pairs. This structure is designed to organize the game state, specifically the pairs of cards that each player has discovered during gameplay. Here's an explanation of the data structure:
+
+PlayerCardsPair:
+
+```typescript
+type PlayerCardsPair = [number, number];
+```
+
+- Represents a pair of cards discovered by a single player.
+- Each pair consists of two numbers representing the indices of the matched cards in the game board.
+
+PlayerCardsPairs:
+
+```typescript
+type PlayerCardsPairs = PlayerCardsPair[];
+```
+
+- Represents all the pairs of cards discovered by a single player.
+- Each element of the array is a PlayerCardsPair.
+
+PlayersCardsPairs:
+
+```typescript
+type PlayersCardsPairs = PlayerCardsPairs[];
+```
+
+- Represents the pairs of cards discovered by all players in the game.
+- The length of the outer array corresponds to the number of players.
+- Each element of the outer array (PlayerCardsPairs) represents the pairs of cards discovered by a specific player.
+- Each element of the inner array (PlayerCardsPair) represents a pair of cards discovered by that player.
+
+Example:
+
+```typescript
+const playersCardsPairs: PlayersCardsPairs = [
+  // Player 1
+  [
+    [0, 1], // Player 1's first pair of cards
+    [3, 4], // Player 1's second pair of cards
+  ],
+  // Player 2
+  [
+    [2, 5], // Player 2's first pair of cards
+    [6, 7], // Player 2's second pair of cards
+  ],
+];
+```
+
+In addition to the custom data structure for managing player card pairs, the Cat Match Memory Game app utilizes the `Immer` library for state manipulation. Immer is employed to facilitate immutable updates to the game state, ensuring predictable and efficient management of complex data structures.
+
 ## Limitations
 
 - The project is currently limited to fetching only 10 cats from the API because we do not have API KEY yet. Additional cats can be added with further development.

@@ -1,23 +1,23 @@
 import { useState, useMemo } from "react";
 import { notification } from "antd";
+import { produce } from "immer";
 import { FlippableCard, Typography, Loader } from "@components/ui";
 import { useCatsImages } from "@hooks/game";
 import { doubleItemsInList, shuffleList } from "@utils/list";
 import { useGame } from "@hooks/game";
 import styles from "./CardBoard.module.css";
+import { PlayersCardsPairs, PlayerCardsPair } from "./types";
 
 const CardBoard = () => {
   const { isLoading, catsImages } = useCatsImages();
   const [api, contextHolder] = notification.useNotification();
-  const {
-    playersCardsPairs,
-    numberOfPlayers,
-    addPlayersNewPair,
-    setWinnerPlayer,
-  } = useGame();
+  const { numberOfPlayers, setWinnerPlayer } = useGame();
   const [firstOpenedCard, setFirstOpenedCard] = useState<number | null>(null);
   const [secondOpenedCard, setSecondOpenedCard] = useState<number | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [playersCardsPairs, setPlayersCardsPairs] = useState<PlayersCardsPairs>(
+    new Array(numberOfPlayers!).fill([])
+  );
 
   const doubledAndShuffledCatsImages = useMemo(
     () => shuffleList(doubleItemsInList(catsImages)),
@@ -27,6 +27,14 @@ const CardBoard = () => {
   const allOpenedCardsIndexes = useMemo(() => {
     return [...playersCardsPairs.flat(2), firstOpenedCard, secondOpenedCard];
   }, [playersCardsPairs, firstOpenedCard, secondOpenedCard]);
+
+  const addPlayersNewPair = (playerNumber: number, pair: PlayerCardsPair) => {
+    setPlayersCardsPairs(
+      produce(playersCardsPairs, (draft) => {
+        draft[playerNumber - 1].push(pair);
+      })
+    );
+  };
 
   const flipCard = (cardIndex: number) => {
     const bothCardsAreOpen =

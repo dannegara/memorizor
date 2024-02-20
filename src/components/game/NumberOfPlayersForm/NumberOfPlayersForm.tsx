@@ -24,7 +24,7 @@ const NumberOfPlayersForm = () => {
         className={styles.NumberOfPlayersForm}
         onSubmit={submitNumberOfPlayers}
       >
-        <NumberInput name="numberOfPlayers" min={1} max={5} defaultValue={1} />
+        <NumberInput name="numberOfPlayers" min={1} max={3} defaultValue={1} />
         <Button type="submit">Submit</Button>
       </form>
     </div>

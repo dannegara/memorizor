@@ -1,16 +1,13 @@
 import { useState, useMemo, createContext, PropsWithChildren } from "react";
-import { produce } from "immer";
 import { GameStep } from "@enums/gameStep";
-import { GameContextValue, PlayerCardsPair } from "./types";
+import { GameContextValue } from "./types";
 
 const defaultValue: GameContextValue = {
   numberOfPlayers: null,
   winnerPlayer: null,
   gameStep: GameStep.NUMBER_OF_PLAYERS,
-  playersCardsPairs: [],
   setNumberOfPlayers: () => {},
   resetGame: () => {},
-  addPlayersNewPair: () => {},
   setWinnerPlayer: () => {},
 };
 
@@ -23,9 +20,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [winnerPlayer, setWinnerPlayerState] = useState<
     GameContextValue["winnerPlayer"]
   >(defaultValue.winnerPlayer);
-  const [playersCardsPairs, setPlayersCardsPairs] = useState<
-    GameContextValue["playersCardsPairs"]
-  >(defaultValue.playersCardsPairs);
 
   const gameStep = useMemo<GameStep>(() => {
     if (numberOfPlayers === null) {
@@ -51,15 +45,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
 
     setNumberOfPlayersState(newNumberOfPlayers);
-    setPlayersCardsPairs(new Array(newNumberOfPlayers).fill([]));
-  };
-
-  const addPlayersNewPair = (playerNumber: number, pair: PlayerCardsPair) => {
-    setPlayersCardsPairs(
-      produce(playersCardsPairs, (draft) => {
-        draft[playerNumber - 1].push(pair);
-      })
-    );
   };
 
   const setWinnerPlayer = (playerNumber: number) => {
@@ -81,7 +66,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const resetGame = () => {
     setNumberOfPlayersState(null);
     setWinnerPlayerState(null);
-    setPlayersCardsPairs([]);
   };
 
   return (
@@ -90,10 +74,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         numberOfPlayers,
         gameStep,
         winnerPlayer,
-        playersCardsPairs,
         resetGame,
         setNumberOfPlayers,
-        addPlayersNewPair,
         setWinnerPlayer,
       }}
     >
