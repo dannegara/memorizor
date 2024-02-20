@@ -100,7 +100,7 @@ const CardBoard = () => {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader className={styles.Loader} />;
   }
 
   return (

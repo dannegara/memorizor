@@ -13,3 +13,7 @@
 .CardBoardContainer > h1 {
   text-align: center;
 }
+
+.Loader {
+  margin-top: 32px;
+}
