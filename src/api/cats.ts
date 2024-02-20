@@ -7,8 +7,12 @@ type CatsResponse = Array<{
   height: number;
 }>;
 
-export const getCatsImages = async (): Promise<string[]> => {
-  const res = await fetch(`${BASE_URL}v1/images/search?limit=10`);
+export const getCatsImages = async (args?: {
+  signal: AbortSignal;
+}): Promise<string[]> => {
+  const res = await fetch(`${BASE_URL}v1/images/search?limit=10`, {
+    signal: args?.signal,
+  });
 
   const cats = (await res.json()) as CatsResponse;
 

@@ -6,11 +6,20 @@ export const useCatsImages = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     (async () => {
-      const catsImagesResult = await getCatsImages();
+      const catsImagesResult = await getCatsImages({
+        signal: abortController.signal,
+      });
+
       setCatsImages(catsImagesResult);
       setIsLoading(false);
     })();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return {
